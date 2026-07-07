@@ -2,137 +2,233 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>HỆ THỐNG AI 5.0 - RENDER VERSION</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Space Grotesk', sans-serif; }
-        body { background: radial-gradient(circle at center, #0a192f 0%, #020c1b 100%); color: #fff; min-height: 100vh; }
+        body { 
+            background: radial-gradient(circle at center, #0a192f 0%, #020c1b 100%); 
+            color: #fff; min-height: 100vh; overflow-x: hidden;
+        }
+
         .container { max-width: 450px; margin: 0 auto; padding: 20px; }
-        .header { font-size: 2.2rem; font-weight: 900; text-align: center; background: linear-gradient(90deg, #00d2ff, #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 30px 0; }
-        .input { width: 100%; background: rgba(0,0,0,0.5); border: 2px solid rgba(0,210,255,0.3); padding: 15px; border-radius: 12px; color: #fff; font-size: 1.1rem; text-align: center; margin-bottom: 15px; }
-        .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-size: 1.1rem; font-weight: 900; background: linear-gradient(135deg, #0077ff, #00d2ff); color: #fff; cursor: pointer; margin-bottom: 15px; }
-        .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 15px; cursor: pointer; transition: 0.3s; }
-        .card:hover { border-color: #00d2ff; background: rgba(0,210,255,0.05); }
-        .card h3 { font-size: 1.3rem; margin-bottom: 5px; }
+        .header { 
+            font-size: 2.2rem; font-weight: 900; text-align: center; 
+            background: linear-gradient(90deg, #00d2ff, #fff); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            margin: 30px 0;
+        }
+
+        .cyber-input {
+            width: 100%; background: rgba(0,0,0,0.5); border: 2px solid rgba(0,210,255,0.3);
+            padding: 16px; border-radius: 12px; color: #fff; font-size: 1.1rem; 
+            text-align: center; outline: none; margin-bottom: 15px; font-weight: 700;
+        }
+        .cyber-input:focus { border-color: #00d2ff; box-shadow: 0 0 15px rgba(0,210,255,0.4); }
+
+        .btn-action {
+            width: 100%; padding: 16px; border-radius: 12px; border: none; 
+            font-size: 1.1rem; font-weight: 900; text-transform: uppercase;
+            background: linear-gradient(135deg, #0077ff 0%, #00d2ff 100%); 
+            color: #fff; cursor: pointer; margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,210,255,0.3); transition: 0.2s;
+        }
+        .btn-action:active { transform: scale(0.97); }
+        .btn-secondary { background: linear-gradient(135deg, #374151 0%, #4b5563 100%); box-shadow: none; }
+
+        .san-card {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px; border-radius: 15px; margin-bottom: 15px; cursor: pointer; 
+            transition: 0.3s; display: flex; align-items: center; justify-content: space-between;
+        }
+        .san-card:hover { border-color: #00d2ff; background: rgba(0,210,255,0.05); }
+        .san-name { font-size: 1.3rem; font-weight: 900; }
         .lc79 { color: #ff3366; }
         .betvip { color: #ffe600; }
-        .result-box { display: flex; gap: 15px; margin: 20px 0; }
-        .res { flex: 1; padding: 25px; border-radius: 15px; text-align: center; font-size: 1.8rem; font-weight: 900; border: 2px solid; }
-        .res-tai { color: #ff0055; border-color: rgba(255,0,85,0.3); background: rgba(255,0,85,0.05); }
+
+        .result-area { display: flex; gap: 15px; margin: 25px 0; }
+        .res-box { 
+            flex: 1; padding: 25px 0; border-radius: 15px; text-align: center; 
+            font-size: 1.8rem; font-weight: 900; border: 2px solid; transition: 0.3s;
+        }
         .res-xiu { color: #00ff66; border-color: rgba(0,255,102,0.3); background: rgba(0,255,102,0.05); }
-        .active-tai { animation: blinkTai 0.8s infinite alternate; background: rgba(255,0,85,0.15) !important; border-color: #ff0055 !important; box-shadow: 0 0 25px rgba(255,0,85,0.5); }
-        .active-xiu { animation: blinkXiu 0.8s infinite alternate; background: rgba(0,255,102,0.15) !important; border-color: #00ff66 !important; box-shadow: 0 0 25px rgba(0,255,102,0.5); }
-        @keyframes blinkTai { to { opacity: 0.9; } }
-        @keyframes blinkXiu { to { opacity: 0.9; } }
-        .info-text { text-align: center; color: #a0aec0; font-size: 0.9rem; margin: 10px 0; }
-        #error { color: #ff3366; text-align: center; display: none; font-weight: 700; }
+        .res-tai { color: #ff0055; border-color: rgba(255,0,85,0.3); background: rgba(255,0,85,0.05); }
+
+        .active-tai { 
+            animation: blinkTai 0.8s infinite alternate; 
+            background: rgba(255,0,85,0.15) !important; border-color: #ff0055 !important; 
+            box-shadow: 0 0 25px rgba(255,0,85,0.5);
+        }
+        .active-xiu { 
+            animation: blinkXiu 0.8s infinite alternate; 
+            background: rgba(0,255,102,0.15) !important; border-color: #00ff66 !important; 
+            box-shadow: 0 0 25px rgba(0,255,102,0.5);
+        }
+        @keyframes blinkTai { from { opacity: 0.6; } to { opacity: 1; } }
+        @keyframes blinkXiu { from { opacity: 0.6; } to { opacity: 1; } }
+
+        .info-line { text-align: center; color: #a0aec0; font-size: 0.95rem; margin: 10px 0; }
+        .info-line strong { color: #fff; }
+        .error-msg { color: #ff3366; text-align: center; font-weight: 700; display: none; margin-bottom: 10px; }
+        .loading { text-align: center; color: #00d2ff; padding: 10px; display: none; }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- MÀN HÌNH ĐĂNG NHẬP -->
         <div id="login-page">
             <div class="header">AI 5.0</div>
-            <input type="text" id="key" class="input" placeholder="Nhập mã khóa truy cập">
-            <button class="btn" onclick="dangNhap()">KẾT NỐI HỆ THỐNG</button>
-            <p id="error">Mã khóa không chính xác!</p>
+            <input type="text" id="key-input" class="cyber-input" placeholder="Nhập mã khóa truy cập...">
+            <div class="error-msg" id="login-error">Mã khóa không chính xác!</div>
+            <button class="btn-action" onclick="dangNhap()">
+                <i class="fas fa-lock"></i> KẾT NỐI HỆ THỐNG
+            </button>
         </div>
 
-        <div id="menu-page" style="display:none;">
-            <div class="header" style="font-size:1.8rem;">CHỌN SÀN DỰ ĐOÁN</div>
-            <div class="card" onclick="chonSan('lc79_tx')">
-                <h3 class="lc79">LC79 - TÀI XỈU</h3>
+        <!-- MÀN HÌNH CHỌN SÀN -->
+        <div id="menu-page" style="display: none;">
+            <div class="header" style="font-size: 1.8rem;">CHỌN SÀN DỰ ĐOÁN</div>
+            
+            <div class="san-card" onclick="chonSan('lc79_tx')">
+                <span class="san-name lc79">LC79 - TÀI XỈU</span>
+                <i class="fas fa-chevron-right" style="color: #ffffff40;"></i>
             </div>
-            <div class="card" onclick="chonSan('lc79_md5')">
-                <h3 class="lc79">LC79 - MD5</h3>
+            <div class="san-card" onclick="chonSan('lc79_md5')">
+                <span class="san-name lc79">LC79 - MD5</span>
+                <i class="fas fa-chevron-right" style="color: #ffffff40;"></i>
             </div>
-            <div class="card" onclick="chonSan('betvip_tx')">
-                <h3 class="betvip">BETVIP - TÀI XỈU</h3>
+            <div class="san-card" onclick="chonSan('betvip_tx')">
+                <span class="san-name betvip">BETVIP - TÀI XỈU</span>
+                <i class="fas fa-chevron-right" style="color: #ffffff40;"></i>
             </div>
-            <div class="card" onclick="chonSan('betvip_md5')">
-                <h3 class="betvip">BETVIP - MD5</h3>
+            <div class="san-card" onclick="chonSan('betvip_md5')">
+                <span class="san-name betvip">BETVIP - MD5</span>
+                <i class="fas fa-chevron-right" style="color: #ffffff40;"></i>
             </div>
-            <button class="btn" style="background:#444; margin-top:20px;" onclick="quayLai()">QUAY LẠI</button>
+
+            <button class="btn-action btn-secondary" style="margin-top: 20px;" onclick="quayLaiDangNhap()">
+                <i class="fas fa-arrow-left"></i> QUAY LẠI
+            </button>
         </div>
 
-        <div id="tool-page" style="display:none;">
-            <div class="header" style="font-size:1.5rem;">CÔNG CỤ AI 5.0</div>
-            <p class="info-text">Mã phiên: <span id="ma-phien">---</span></p>
+        <!-- MÀN HÌNH CÔNG CỤ DỰ ĐOÁN -->
+        <div id="tool-page" style="display: none;">
+            <div class="header" style="font-size: 1.5rem;">CÔNG CỤ AI 5.0</div>
             
-            <div class="result-box">
-                <div class="res res-xiu" id="box-xiu">XỈU</div>
-                <div class="res res-tai" id="box-tai">TÀI</div>
+            <p class="info-line">Mã phiên hiện tại: <strong id="ma-phien">---</strong></p>
+            
+            <div class="result-area">
+                <div class="res-box res-xiu" id="box-xiu">XỈU</div>
+                <div class="res-box res-tai" id="box-tai">TÀI</div>
+            </div>
+
+            <p class="info-line">Độ tin cậy dự đoán: <strong id="do-tin-cay">---</strong>%</p>
+            <p class="info-line">Phương pháp phân tích: <strong id="phuong-phap">---</strong></p>
+            
+            <div class="loading" id="loading-data">
+                <i class="fas fa-circle-notch fa-spin"></i> Đang phân tích dữ liệu...
             </div>
             
-            <p class="info-text">Độ tin cậy: <span id="do-tin">---</span>%</p>
-            <p class="info-text">Phương pháp: <span id="pp">---</span></p>
-            
-            <button class="btn" style="margin-top:25px;" onclick="layDuDoan()">🔄 QUÉT DỰ ĐOÁN</button>
-            <button class="btn" style="background:#444;" onclick="quayLaiSan()">QUAY LẠI SÀN</button>
+            <button class="btn-action" style="margin-top: 20px;" onclick="layDuDoan()">
+                <i class="fas fa-sync-alt"></i> QUÉT DỰ ĐOÁN
+            </button>
+            <button class="btn-action btn-secondary" onclick="quayLaiMenu()">
+                <i class="fas fa-arrow-left"></i> QUAY LẠI SÀN
+            </button>
         </div>
     </div>
 
     <script>
         let sanHienTai = "";
-        let interval = null;
+        let tuDongQuet = null;
+        // Tự động nhận địa chỉ web hiện tại, tương thích mọi môi trường
+        const API_URL = window.location.protocol + "//" + window.location.host;
 
+        // ĐĂNG NHẬP HỆ THỐNG
         async function dangNhap() {
-            const key = document.getElementById('key').value.trim();
-            const res = await fetch("/api/login", {
-                method: "POST", headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({key: key})
-            }).then(r => r.json());
-            
-            if(res.status === "success") {
-                document.getElementById('login-page').style.display = 'none';
-                document.getElementById('menu-page').style.display = 'block';
-            } else {
-                document.getElementById('error').style.display = 'block';
+            const key = document.getElementById('key-input').value.trim();
+            const loi = document.getElementById('login-error');
+            loi.style.display = 'none';
+
+            try {
+                const res = await fetch(`${API_URL}/api/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ key: key })
+                }).then(r => r.json());
+
+                if (res.status === "success") {
+                    document.getElementById('login-page').style.display = 'none';
+                    document.getElementById('menu-page').style.display = 'block';
+                } else {
+                    loi.style.display = 'block';
+                }
+            } catch (e) {
+                alert("Không thể kết nối đến hệ thống! Vui lòng kiểm tra lại kết nối.");
             }
         }
 
-        function chonSan(ma) {
-            sanHienTai = ma;
+        // CHỌN SÀN CHƠI
+        function chonSan(maSan) {
+            sanHienTai = maSan;
             document.getElementById('menu-page').style.display = 'none';
             document.getElementById('tool-page').style.display = 'block';
             layDuDoan();
-            if(interval) clearInterval(interval);
-            interval = setInterval(layDuDoan, 15000);
+            // Tự động quét mỗi 15 giây
+            if (tuDongQuet) clearInterval(tuDongQuet);
+            tuDongQuet = setInterval(layDuDoan, 15000);
         }
 
+        // LẤY DỮ LIỆU DỰ ĐOÁN
         async function layDuDoan() {
+            const loading = document.getElementById('loading-data');
+            loading.style.display = 'block';
+
             try {
-                const res = await fetch("/api/scan", {
-                    method: "POST", headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({tool: sanHienTai})
+                const res = await fetch(`${API_URL}/api/scan`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ tool: sanHienTai })
                 }).then(r => r.json());
-                
-                if(res.status === "success") {
-                    const d = res.data;
-                    document.getElementById('ma-phien').innerText = d.phien;
-                    document.getElementById('do-tin').innerText = d.tin_cay;
-                    document.getElementById('pp').innerText = d.phuong_phap;
-                    
+
+                if (res.status === "success") {
+                    const data = res.data;
+                    document.getElementById('ma-phien').innerText = data.phien;
+                    document.getElementById('do-tin-cay').innerText = data.tin_cay;
+                    document.getElementById('phuong-phap').innerText = data.phuong_phap;
+
+                    // Xóa hiệu ứng cũ
                     document.getElementById('box-tai').classList.remove('active-tai');
                     document.getElementById('box-xiu').classList.remove('active-xiu');
-                    if(d.du_doan === "TÀI") document.getElementById('box-tai').classList.add('active-tai');
-                    else document.getElementById('box-xiu').classList.add('active-xiu');
+                    // Thêm hiệu ứng kết quả
+                    if (data.du_doan === "TÀI" || data.du_doan === "CHẴN") {
+                        document.getElementById('box-tai').classList.add('active-tai');
+                    } else {
+                        document.getElementById('box-xiu').classList.add('active-xiu');
+                    }
                 }
-            } catch(e) { console.log("Lỗi kết nối"); }
+            } catch (e) {
+                console.error("Lỗi lấy dữ liệu:", e);
+            } finally {
+                loading.style.display = 'none';
+            }
         }
 
-        function quayLai() {
-            if(interval) clearInterval(interval);
-            document.getElementById('menu-page').style.display = 'none';
-            document.getElementById('login-page').style.display = 'block';
-            document.getElementById('error').style.display = 'none';
-        }
-
-        function quayLaiSan() {
-            if(interval) clearInterval(interval);
+        // QUAY LẠI MÀN HÌNH CHỌN SÀN
+        function quayLaiMenu() {
+            if (tuDongQuet) clearInterval(tuDongQuet);
             document.getElementById('tool-page').style.display = 'none';
             document.getElementById('menu-page').style.display = 'block';
+        }
+
+        // QUAY LẠI ĐĂNG NHẬP
+        function quayLaiDangNhap() {
+            document.getElementById('menu-page').style.display = 'none';
+            document.getElementById('login-page').style.display = 'block';
+            document.getElementById('key-input').value = '';
+            document.getElementById('login-error').style.display = 'none';
         }
     </script>
 </body>
